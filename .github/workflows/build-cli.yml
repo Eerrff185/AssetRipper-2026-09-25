@@ -35,7 +35,7 @@ jobs:
 
       - name: Timestamp compilation
         shell: bash
-        run: date -u > ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/compile_time.txt
+        run: date -u > ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/compile_time.txt
 
       - name: Archive & Upload (zip)
         if: ${{ matrix.config.archive == 'zip' }}
@@ -43,17 +43,17 @@ jobs:
         with:
           name: AssetRipper_CLI_${{ matrix.config.name }}
           path: |
-            ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/${{ matrix.config.executable }}
-            ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/*.dll
-            ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/*.so
-            ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/*.dylib
-            ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/compile_time.txt
+            ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/${{ matrix.config.executable }}
+            ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/*.dll
+            ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/*.so
+            ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/*.dylib
+            ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/compile_time.txt
           if-no-files-found: error
 
       - name: Create Archive (tar)
         if: ${{ matrix.config.archive == 'tar' }}
         shell: bash
-        working-directory: ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish
+        working-directory: ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish
         run: tar cvJf "AssetRipper_CLI_${{ matrix.config.name }}.tar.xz" "${{ matrix.config.executable }}" compile_time.txt $(ls *.{dll,so,dylib} 2>/dev/null)
 
       - name: Upload Archive (tar)
@@ -61,4 +61,4 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: AssetRipper_CLI_${{ matrix.config.name }}
-          path: ./Source/0Bins/AssetRipper.CLI.Free/Release/${{ matrix.config.runtime }}/publish/AssetRipper_CLI_${{ matrix.config.name }}.tar.xz
+          path: ./Source/AssetRipper.CLI.Free/bin/Release/${{ matrix.config.runtime }}/publish/AssetRipper_CLI_${{ matrix.config.name }}.tar.xz
